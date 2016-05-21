@@ -1,0 +1,4 @@
+Deps = [
+        {poolboy, ".*", {git, "git@github.com:wcy123/poolboy.git"}}
+       ],
+[{deps, Deps}].

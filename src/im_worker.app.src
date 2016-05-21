@@ -1,0 +1,21 @@
+{application, im_worker,
+ [
+  {description, ""},
+  {vsn, git},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { im_worker_app, []}},
+  {env, [
+         {workers,
+          [[{worker, worker1},
+            {pool_size, 4},
+            {max_overflow, 20}],
+           [{worker, worker2},
+            {pool_size, 4},
+            {max_overflow, 20}]
+          ]}
+        ]}
+ ]}.
