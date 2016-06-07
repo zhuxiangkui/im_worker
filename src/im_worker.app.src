@@ -10,10 +10,10 @@
   {mod, { im_worker_app, []}},
   {env, [
          {workers,
-          [[{worker, worker1},
+          [[{worker, worker_migrate_full},
             {pool_size, 4},
             {max_overflow, 20}],
-           [{worker, worker2},
+           [{worker, worker_migrate_incr},
             {pool_size, 4},
             {max_overflow, 20}]
           ]}
