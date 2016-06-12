@@ -21,4 +21,4 @@ do_work(WorkerName, M, F, A) ->
     end.
 
 is_block() -> true.
-timeout() -> 1000.
+timeout() -> infinity.
