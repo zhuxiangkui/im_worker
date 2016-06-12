@@ -1,14 +1,20 @@
 -module(im_worker).
 -author('wcy123@gmail.com').
--export([do_work/4, do_work_async/4]).
+-export([do_work/5, do_work_async/4]).
 -compile([{parse_transform, lager_transform}]).
 
 
 do_work_async(WorkerName, M,F,A) ->
-    spawn(?MODULE, do_work, [WorkerName, M, F, A]).
+    Self = self(),
+    spawn(?MODULE, do_work, [Self, WorkerName, M, F, A]),
+    receive
+        Self ->
+            ok
+    end.
 
-do_work(WorkerName, M, F, A) ->
+do_work(Pid, WorkerName, M, F, A) ->
     WorkerPid = poolboy:checkout(WorkerName, is_block(), timeout()),
+    Pid ! Pid,
     try
         im_worker_server:evaluate(WorkerPid, M, F, A)
     catch
