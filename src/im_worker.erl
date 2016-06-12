@@ -6,15 +6,15 @@
 
 do_work_async(WorkerName, M,F,A) ->
     Self = self(),
-    spawn(?MODULE, do_work, [Self, WorkerName, M, F, A]),
+    Pid = spawn(?MODULE, do_work, [Self, WorkerName, M, F, A]),
     receive
-        Self ->
+        Pid ->
             ok
     end.
 
 do_work(Pid, WorkerName, M, F, A) ->
     WorkerPid = poolboy:checkout(WorkerName, is_block(), timeout()),
-    Pid ! Pid,
+    Pid ! self(),
     try
         im_worker_server:evaluate(WorkerPid, M, F, A)
     catch
